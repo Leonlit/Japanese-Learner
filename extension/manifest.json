@@ -1,0 +1,29 @@
+{
+    "manifest_version": 3,
+    "name": "Japanese Learner",
+    "version": "0.1",
+    "description": "An extension to aid people learning japanese.",
+    "permissions": [
+        "storage",
+        "activeTab",
+        "contextMenus",
+        "scripting"
+    ],
+    "action": {
+        "default_popup": "popUp.html",
+        "default_title": "Japanese Learner",
+        "default_icon": "icons/icon-32.png"
+    },
+    "host_permissions": [
+        "http://localhost:5000/*"
+    ],
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "icons": {
+        "48": "icons/icon-48.png",
+        "128": "icons/icon-128.png"
+    }
+}
