@@ -19,7 +19,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "howToReadThis") {
         const text = message.text;
-        const url = "http://localhost:5000/howToReadText?text=" + encodeURIComponent(text);
+        const url = "http://localhost:5000/getTextAid?text=" + encodeURIComponent(text);
 
         fetch(url)
             .then(res => res.json())
