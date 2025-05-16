@@ -1,3 +1,5 @@
+import { get_text_aid_pop_up, get_and_play_text_tts } from "./helper.js";
+
 chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
         id: "howToReadThis",
@@ -18,17 +20,9 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 // handle message from content.js
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "howToReadThis") {
+        const manifest = chrome.runtime.getManifest();
+        const hostDomain = manifest.host_permissions[0].replace("/*", "");
         const text = message.text;
-        const url = "http://localhost:5000/getTextAid?text=" + encodeURIComponent(text);
-
-        fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                console.log("Response from API:", data);
-                // Optional: send a message back to content script or popup
-            })
-            .catch(err => {
-                console.error("API fetch failed", err);
-            });
+        get_and_play_text_tts(text, hostDomain)
     }
 });

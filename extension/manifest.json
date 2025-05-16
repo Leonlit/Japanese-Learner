@@ -15,12 +15,14 @@
         "default_icon": "icons/icon-32.png"
     },
     "host_permissions": [
-        "http://localhost:5000/*"
+        "http://127.0.0.1:5000/*"
     ],
     "background": {
         "scripts": [
-            "background.js"
-        ]
+            "background.js",
+            "helper.js"
+        ],
+        "type": "module"
     },
     "icons": {
         "48": "icons/icon-48.png",
