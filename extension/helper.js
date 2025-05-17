@@ -1,12 +1,12 @@
-function get_text_aid_pop_up(text, hostDomain) {
+async function get_text_aid_pop_up(text, hostDomain) {
     const url = `${hostDomain}/getTextAid?text=` + encodeURIComponent(text);
     console.log(url);
     
-    fetch(url)
+    return await fetch(url)
         .then(res => res.json())
         .then(data => {
             console.log(data);
-            
+            return data
         })
         .catch(err => {
             console.error("API fetch failed", err);
@@ -30,5 +30,5 @@ function get_and_play_text_tts(text, hostDomain) {
 
 export {
     get_text_aid_pop_up,
-    get_and_play_text_tts
+    get_and_play_text_tts,
 }
