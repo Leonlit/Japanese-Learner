@@ -14,7 +14,7 @@ async function get_text_aid_pop_up(text, hostDomain) {
 }
 
 
-function get_and_play_text_tts(text, hostDomain) {
+async function get_and_play_text_tts(text, hostDomain) {
     const url = `${hostDomain}/getTextTTS?text=` + encodeURIComponent(text);
     fetch(url)
         .then(res => res.blob())

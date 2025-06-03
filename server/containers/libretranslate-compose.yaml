@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  libretranslate:
+    image: libretranslate/libretranslate:latest
+    container_name: libretranslate
+    ports:
+      - "5050:5050"
+    environment:
+      - LT_DISABLE_USAGE=true  # Optional: disables usage statistics
+      - LT_API_KEYS=false      # Optional: disables API key requirement
+    restart: unless-stopped

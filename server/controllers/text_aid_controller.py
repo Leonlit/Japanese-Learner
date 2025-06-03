@@ -1,6 +1,7 @@
 import pykakasi
 from jamdict import Jamdict
-from flask import request, jsonify
+from flask import request, jsonify, abort
+import requests
 
 from utils.classifies import classify_japanese_text
 
@@ -14,16 +15,34 @@ def get_text_aid():
         if not isJapanese:
             return jsonify({"message": variantType})
 
+        textTranslation = translate_text(text)
         textAidArr = generate_text_aid(text)
         
         if not textAidArr:
             return jsonify({"success": False}), 500
 
         textAidAllArr = generate_text_meaning(textAidArr)
-        return jsonify({"success": True, "textAid": textAidAllArr})
+        return jsonify({"success": True, "textAid": textAidAllArr, "translatedText": textTranslation})
     except Exception as err:
         print(err)
-        abort(500) 
+        abort(500)
+
+
+def translate_text(text, source_lang='ja', target_lang='en'):
+    url = 'http://localhost:5050/translate'
+
+    payload = {
+        'q': text,
+        'source': source_lang,
+        'target': target_lang,
+        'format': 'text'
+    }
+
+    response = requests.post(url, data=payload)
+    if response.status_code == 200:
+        return response.json()['translatedText']
+    else:
+        raise Exception(f"Error: {response.status_code}, {response.text}")
 
 def generate_text_aid(text):
     try:
