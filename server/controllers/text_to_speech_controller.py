@@ -10,6 +10,7 @@ WAV_FOLDER="wavs"
 def get_text_tts():
     try:
         text = request.args.get("text")
+        text = text.strip()
         isJapanese, variantType = classify_japanese_text(text)
         
         if not isJapanese:
@@ -38,6 +39,7 @@ def get_tts_japanese_text(text, uuid):
         ['open_jtalk',
          '-x', '/var/lib/mecab/dic/open-jtalk/naist-jdic',
          '-m', '/usr/share/hts-voice/mei/mei_normal.htsvoice',
+         '-r', '0.8',
          '-ow', wav_file],
         input=text.encode('utf-8'),
         stdout=subprocess.PIPE,

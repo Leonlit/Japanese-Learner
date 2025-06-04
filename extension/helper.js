@@ -1,6 +1,6 @@
 async function get_text_aid_pop_up(text, hostDomain) {
-    const url = `${hostDomain}/getTextAid?text=` + encodeURIComponent(text);
-    console.log(url);
+    const trimmedText = text.trim()
+    const url = `${hostDomain}/getTextAid?text=` + encodeURIComponent(trimmedText);
     
     return await fetch(url)
         .then(res => res.json())
@@ -15,7 +15,8 @@ async function get_text_aid_pop_up(text, hostDomain) {
 
 
 async function get_and_play_text_tts(text, hostDomain) {
-    const url = `${hostDomain}/getTextTTS?text=` + encodeURIComponent(text);
+    const trimmedText = text.trim()
+    const url = `${hostDomain}/getTextTTS?text=` + encodeURIComponent(trimmedText);
     fetch(url)
         .then(res => res.blob())
         .then(blob => {

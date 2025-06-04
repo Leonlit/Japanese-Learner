@@ -10,6 +10,7 @@ jam = Jamdict()
 def get_text_aid():
     try:
         text = request.args.get("text")
+        text = text.strip()
         isJapanese, variantType = classify_japanese_text(text)
         
         if not isJapanese:
