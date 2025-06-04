@@ -23,7 +23,7 @@ function show_pop_up(selectedText, data) {
 
     // Create host element
     const host = document.createElement("div");
-    host.style.position = "fixed";
+    host.style.position = "absolute";
     host.style.left = `${rect.left + window.scrollX}px`;
     host.style.top = `${rect.bottom + window.scrollY}px`;
     host.style.zIndex = "9999";
