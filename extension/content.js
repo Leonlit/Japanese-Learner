@@ -44,6 +44,18 @@ function show_pop_up(selectedText, data) {
             font-size: 16px;
             overflow-y: auto;
             font-family: sans-serif;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            background: none;
+            border: none;
+            color: #888;
         }
 
         .flex-column {
@@ -77,13 +89,24 @@ function show_pop_up(selectedText, data) {
     // Create popup content wrapper
     const popup = document.createElement("div");
     popup.className = "popup";
+
+    // Add close button
+    const closeBtn = document.createElement("button");
+    closeBtn.className = "close-btn";
+    closeBtn.textContent = "×";
+    closeBtn.addEventListener("click", () => {
+        host.remove(); // Removes the entire popup
+    });
+
+    // Add content
+    popup.appendChild(closeBtn);
     popup.appendChild(construct_interface(selectedText, textAidArr, translatedText));
 
-    // Append style and popup to shadow DOM
+    // Append to shadow DOM
     shadow.appendChild(style);
     shadow.appendChild(popup);
 
-    // Append to body
+    // Append host to body
     document.body.appendChild(host);
 }
 
