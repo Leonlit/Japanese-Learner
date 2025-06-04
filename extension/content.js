@@ -11,10 +11,9 @@
     });
 })();
 
-
 function show_pop_up(selectedText, data) {
-    const textAidArr = data.textAid
-    const translatedText = data.translatedText
+    const textAidArr = data.textAid;
+    const translatedText = data.translatedText;
 
     const selection = window.getSelection();
     if (selection.rangeCount === 0) return;
