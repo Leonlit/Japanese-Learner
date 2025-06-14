@@ -64,6 +64,21 @@ function show_pop_up(selectedText, data) {
             text-align: left;
             line-height: 1.5;
         }
+        
+        .flex-row {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            text-align: left;
+            line-height: 1.5;
+            gap: 10px
+        }
+        
+        .flex-row > .flex-column {
+            margin-left: 10px;
+            margin-right: 10px;
+            justify-content: center;
+        }
 
         .italic {
             font-style: italic;
@@ -84,11 +99,30 @@ function show_pop_up(selectedText, data) {
         .custom-hr {
             width: 100%;
         }
+
+        .more-bottom-margin {
+            margin-bottom: 10px;
+        }
     `;
+
+    function onReadAloudClick(evt) {
+        handleReadAloud(selectedText);
+    }
 
     // Create popup content wrapper
     const popup = document.createElement("div");
     popup.className = "popup";
+
+    const miniPageElement = construct_interface(selectedText, textAidArr, translatedText)
+
+    const readAloudContainer = document.createElement("div")
+    readAloudContainer.classList.add("flex-column")
+
+    const readAloudLink = document.createElement("a")
+    readAloudLink.innerHTML = "🎵"
+    readAloudLink.addEventListener("click", onReadAloudClick)
+
+    readAloudContainer.appendChild(readAloudLink)
 
     // Add close button
     const closeBtn = document.createElement("button");
@@ -96,11 +130,13 @@ function show_pop_up(selectedText, data) {
     closeBtn.textContent = "×";
     closeBtn.addEventListener("click", () => {
         host.remove(); // Removes the entire popup
+        readAloudLink.removeEventListener("click", onReadAloudClick)
     });
 
     // Add content
     popup.appendChild(closeBtn);
-    popup.appendChild(construct_interface(selectedText, textAidArr, translatedText));
+    popup.appendChild(readAloudContainer);
+    popup.appendChild(miniPageElement);
 
     // Append to shadow DOM
     shadow.appendChild(style);
@@ -113,28 +149,20 @@ function show_pop_up(selectedText, data) {
 function construct_interface(selectedText, textAid, translatedText) {
     const miniPage = document.createElement("div")
 
-    const readAloudContainer = document.createElement("div")
-    readAloudContainer.classList.add("flex-column")
+    const originalTexWithRomajiContainer = document.createElement("div")
+    originalTexWithRomajiContainer.classList.add("flex-row")
+    originalTexWithRomajiContainer.classList.add("more-bottom-margin")
+    
+    const originalTexWithRomajiArr = []
 
     const translatedTextContainer = document.createElement("div")
     translatedTextContainer.classList.add("flex-column")
-
     translatedTextContainer.innerText = translatedText
-    
-    const readAloudLink = document.createElement("a")
-    readAloudLink.innerHTML = "🎵"
-    readAloudLink.addEventListener("click", (evt) => {
-        handleReadAloud(selectedText)
-    })
-
-    readAloudContainer.appendChild(readAloudLink)
-    
-    miniPage.appendChild(readAloudContainer)
-    miniPage.appendChild(translatedTextContainer)
 
     //[0] = original word
     //[1] = romanji
     //[2] = gloss/meaning
+    const meaningContainer  = document.createElement("div")
     textAid.forEach((item, idx) => {
         const container = document.createElement("div")
         const originalWord = document.createElement("h2")
@@ -150,6 +178,8 @@ function construct_interface(selectedText, textAid, translatedText) {
 
         originalWord.innerText = item[0]
         romanjiWord.innerText = item[1]
+        
+        originalTexWithRomajiArr.push([item[0], item[1]])
 
         const senses = item[2];
         if (senses != "None") {
@@ -192,8 +222,30 @@ function construct_interface(selectedText, textAid, translatedText) {
             container.appendChild(divider);
         }
 
-        miniPage.appendChild(container)
+        meaningContainer.appendChild(container)
     });
+
+    originalTexWithRomajiArr.forEach(pair => {
+        const pairContainer = document.createElement("div")
+        pairContainer.classList.add("flex-column")
+        const oriText = pair[0]
+        const romajiText = pair[1]
+        const oriTextContainer = document.createElement("span")
+        oriTextContainer.innerText = oriText
+        
+        const romajiTextContainer = document.createElement("span")
+        romajiTextContainer.innerText = romajiText
+
+        pairContainer.appendChild(oriTextContainer)
+        pairContainer.appendChild(romajiTextContainer)
+
+        originalTexWithRomajiContainer.appendChild(pairContainer)
+    });
+    
+    miniPage.appendChild(originalTexWithRomajiContainer)
+    miniPage.appendChild(translatedTextContainer)
+    miniPage.appendChild(meaningContainer)
+
     return miniPage
 }
 
