@@ -25,25 +25,30 @@ def get_text_aid():
         textAidAllArr = generate_text_meaning(textAidArr)
         return jsonify({"success": True, "textAid": textAidAllArr, "translatedText": textTranslation})
     except Exception as err:
+        print("[-] Error in returning text aids.")
         print(err)
         abort(500)
 
 
 def translate_text(text, source_lang='ja', target_lang='en'):
-    url = 'http://localhost:5050/translate'
+    try: 
+        url = 'http://localhost:5050/translate'
 
-    payload = {
-        'q': text,
-        'source': source_lang,
-        'target': target_lang,
-        'format': 'text'
-    }
+        payload = {
+            'q': text,
+            'source': source_lang,
+            'target': target_lang,
+            'format': 'text'
+        }
 
-    response = requests.post(url, data=payload)
-    if response.status_code == 200:
-        return response.json()['translatedText']
-    else:
-        raise Exception(f"Error: {response.status_code}, {response.text}")
+        response = requests.post(url, data=payload)
+        if response.status_code == 200:
+            return response.json()['translatedText']
+        else:
+            raise Exception(f"Error: {response.status_code}, {response.text}")
+    except Exception as ex:
+        print("[-] Error in getting text translation.")
+        print(ex)
 
 def generate_text_aid(text):
     try:

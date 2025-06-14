@@ -25,6 +25,7 @@ def classify_japanese_text(text):
             return True, "Romaji"
         else:
             return False, "Not a Japanese text"
-    except Exception as err:
-        print(err)
+    except Exception as ex:
+        print("[-] Error in classifying text.")
+        print(ex)
         return False, "Error Occured"

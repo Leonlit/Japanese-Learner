@@ -16,4 +16,7 @@ text_bp.route("/getTextTTS", methods=["GET"])(get_text_tts)
 app.register_blueprint(text_bp) 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    try:
+        app.run(debug=True, port=5000)
+    except Exception as ex:
+        print(ex)
