@@ -12,6 +12,11 @@ Install hts_engine API first before installing Open JTalk
 - https://hts-engine.sourceforge.net/
 - https://open-jtalk.sourceforge.net/
 
+### HTS Voice file
+Install the voice file through MMDAgent's Example directory. It will be inside the Voice folder once you downloaded it.
+
+https://sourceforge.net/projects/mmdagent/
+
 ## Start the servers
 
 ```
