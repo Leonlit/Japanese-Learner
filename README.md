@@ -1,3 +1,8 @@
+A WIP firefox extension to learn japanese 
+
+# Demo
+https://youtu.be/Ab5a5aDbzXw
+
 # Installation
 
 ## Installing dependency
